@@ -6,9 +6,9 @@
 # 3. More Commands - open youtube, remember this, what did I ask
 
 import sqlite3
-import webbrowser
 import datetime
-import os
+import webbrowser
+import jarvis_stage_1
 
 # --- 1. LOCAL DB SETUP - Like a notebook Jarvis writes in ---
 # jarvis.db is a file. You can copy it mobile -> laptop via WhatsApp / USB / Drive
@@ -82,24 +82,6 @@ def show_history():
             print(f" - {text} at {time}")
 
 # --- 2. BASIC COMMANDS FROM STAGE 1 ---
-def say_hello():
-    name = recall("name")
-    if name:
-        print(f"Jarvis: Hello {name}, I am Jarvis. Stage 2 Thrusters ON.")
-    else:
-        print("Jarvis: Hello, I am Jarvis. Stage 2 Thrusters ON. What is your name?")
-        user_name = input("You: ")
-        remember("name", user_name)
-        print(f"Jarvis: Nice to meet you, {user_name}.")
-
-def tell_time():
-    now = datetime.datetime.now()
-    print(f"Jarvis: Time is {now.strftime('%H:%M')}") # 24hr, like your mobile, no clock change
-
-def tell_date():
-    now = datetime.datetime.now()
-    print(f"Jarvis: Today is {now.strftime('%d %B %Y, %A')}")
-
 # --- 3. STAGE 2 NEW: ASK WEBSITE OR APP ---
 def ask_website_or_app(search_text, incognito):
     # Human decides, not machine. Jarvis asks like Google Assistant.
@@ -148,7 +130,6 @@ def main():
     print("=== JARVIS STAGE 2 - THRUSTERS ===")
     print("Activation: You opened me, so I am ON.")
     print("To quit: type 'quit' or tap somewhere else to close me.")
-    say_hello()
 
     # Incognito choice - Privacy 1st
     print("Jarvis: Incognito? Type yes for Show Only, no for Show + Tell")
@@ -160,21 +141,12 @@ def main():
         print("Jarvis: Incognito OFF - Show + Tell, History Saved.")
 
     while True:
-        print("\nJarvis: What to do? (hello / time / date / search / remember / history / quit)")
+        print("\nJarvis: What to do?")
         command = input("You: ").lower().strip()
 
         if command == "quit":
             print("Jarvis: Bye. Thrusters OFF.")
             break
-
-        elif command == "hello":
-            say_hello()
-
-        elif command == "time":
-            tell_time()
-
-        elif command == "date":
-            tell_date()
 
         elif command == "search":
             print("Jarvis: What to search?")
@@ -198,12 +170,11 @@ def main():
             else:
                 show_history()
 
-        elif command == "open youtube":
-            print("Jarvis: Opening YouTube")
-            webbrowser.open("https://www.youtube.com")
-
         else:
-            print("Jarvis: I don't know that command yet. Try hello / time / date / search / remember / history")
+            answer = jarvis_stage_1.talk(command)
+            print(answer)
+            if "Bye" in answer:
+                break
 
 if __name__ == "__main__":
     main()
