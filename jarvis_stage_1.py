@@ -59,24 +59,24 @@ def talk(command):
 
     # 10. OPEN YOUTUBE - Laptop + Mobile
     elif "open youtube" in command:
-        return "Opening YouTube..."
         webbrowser.open("https://www.youtube.com")
+        return "Opening YouTube..."
 
     # 11. OPEN AMAZON - Your book page
     elif "open amazon" in command:
-        return "Jarvis: Opening your Twisted Tales book..."
         webbrowser.open("https://www.amazon.in/dp/B0HS9617FD")
-
+        return "Jarvis: Opening your Twisted Tales book..."
+    
     # 12. INCOGNITO SEARCH - Show only, No Tell, No History
     elif "incognito search for " in command:
         topic = command.replace("incognito search for ", "")
-        return f"Jarvis: Incognito mode. Showing only, no tell, no history."
         webbrowser.open(f"https://www.bing.com/search?q={topic}")
+        return f"Jarvis: Incognito mode. Showing only, no tell, no history."
 
     # 13. SEARCH - Normal, Show + Tell
     elif "search for " in command:
         topic = command.replace("search for ", "")
-        return f"Jarvis: Searching for {topic} in Edge / Browser..."
+        return f"Jarvis: Searching for {topic} in Edge / Browser..." 
         # This opens browser with search already done
         webbrowser.open(f"https://www.bing.com/search?q={topic}")
         return f"Jarvis: Showing results for {topic}"
