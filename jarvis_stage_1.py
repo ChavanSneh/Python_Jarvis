@@ -5,16 +5,6 @@ import webbrowser
 import datetime
 import os
 
-print("Hello, I am Jarvis. Created by KalaShade.")
-print("Type 'help' to see what I can do.")
-print("Type 'bye' to stop me.")
-print("-----------------------------------")
-
-# This loop keeps Jarvis running, listening to your typing
-while True:
-    # You type command here
-    command = input("User: ").lower().strip()
-
     # 1. HELLO
 def talk(command):
     if "hello" in command:
@@ -76,7 +66,6 @@ def talk(command):
     # 13. SEARCH - Normal, Show + Tell
     elif "search for " in command:
         topic = command.replace("search for ", "")
-        return f"Jarvis: Searching for {topic} in Edge / Browser..." 
         # This opens browser with search already done
         webbrowser.open(f"https://www.bing.com/search?q={topic}")
         return f"Jarvis: Showing results for {topic}"
