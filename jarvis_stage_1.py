@@ -66,7 +66,6 @@ def talk(command):
     # 13. SEARCH - Normal, Show + Tell
     elif "search for " in command:
         topic = command.replace("search for ", "")
-        # This opens browser with search already done
         webbrowser.open(f"https://www.bing.com/search?q={topic}")
         return f"Jarvis: Showing results for {topic}"
     

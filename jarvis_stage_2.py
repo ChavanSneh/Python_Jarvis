@@ -164,6 +164,13 @@ def main():
             else:
                 print("Jarvis: Use = sign. Example: name = KalaShade")
 
+        elif command == "what is my name":
+            name = recall("name")
+            if name:
+                print(f"Jarvis: Your name is {name}")
+            else:
+                print("Jarvis: I don't know your name yet. Tell me: remember -> name = KalaShade")
+
         elif command == "history":
             if incognito:
                 print("Jarvis: You are in Incognito. I did not save history.")
