@@ -1,5 +1,4 @@
 import speech_recognition as sr
-import pyttsx3
 import time
 import datetime
 import webbrowser
@@ -10,17 +9,23 @@ import pygame
 def speak(text):
     clean_text = text.replace("Jarvis:", "").strip()
     print(f"Jarvis: {clean_text}")
-    try:
-        asyncio.run(edge_tts.Communicate(clean_text, "en-IN-PrabhatNeural").save("jarvis_voice.mp3"))
-        pygame.mixer.init()
-        pygame.mixer.music.load("jarvis_voice.mp3")
-        pygame.mixer.music.play()
-        while pygame.mixer.music.get_busy():
-            time.sleep(0.1)
-        pygame.mixer.quit()
-    except Exception as e:
-        print(f"DEBUG - 【entity-Edge¦canonical_name=Microsoft Edge】 TTS error: {e}")
-
+    if clean_text == "":
+        return
+    for attempt in range(2):
+        try:
+            asyncio.run(edge_tts.Communicate(clean_text, "en-IN-PrabhatNeural").save("jarvis_voice.mp3"))
+            pygame.mixer.init()
+            pygame.mixer.music.load("jarvis_voice.mp3")
+            pygame.mixer.music.play()
+            while pygame.mixer.music.get_busy():
+                time.sleep(0.1)
+            pygame.mixer.quit()
+            break
+        except Exception as e:
+            print(f"DEBUG - Edge TTS try {attempt+1} failed: {e}")
+            time.sleep(0.5)
+            if attempt == 1:
+                print("DEBUG - Edge failed twice, skipping audio, bro.")
 
 listener = sr.Recognizer()
 
@@ -136,14 +141,17 @@ while True:
         break
 
     if "jarvis" in command:
-        speak("Yes KalaShade, I am listening.")
-        command = listen()
-        print(f"DEBUG - Jarvis heard: [{command}]")
-
-        if is_stop(command):
-            speak("Okay KalaShade, stopping now. Bye.")
-            break
-
+        # Remove "jarvis" and "hey", keep rest, bro. One step, bro.
+        command = command.replace("jarvis", "").replace("hey", "").strip()
+        if command == "":
+            speak("Yes KalaShade, I am listening.")
+            command = listen()
+            print(f"DEBUG - Jarvis heard: [{command}]")
+            if is_stop(command):
+                speak("Okay KalaShade, stopping now. Bye.")
+                break
         result = do_command(command)
         if result:
             speak(result)
+        else:
+            speak("I heard you, but that command is not set up yet.")
